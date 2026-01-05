@@ -4,6 +4,11 @@ alias reload="source ~/.zshrc"
 alias vimrc="vim ~/.oh-my-zsh/custom/conorbot.zsh"
 alias vimi3="vim ~/.config/i3/config"
 
+# miscellaneous tools
+## install ruby gems to ~/gems
+export GEM_HOME="$HOME/gems"
+export PATH="$HOME/gems/bin:$PATH"
+
 ## display shenanigans
 alias monup="xrandr --output HDMI-1 --above eDP-1 --auto"
 alias monoff="xrandr --output HDMI-1 --off"
@@ -40,6 +45,8 @@ ziprepo() {
 	zip -r "$out" "$dir" -x '**/__pycache__/*' '**/.pytest_cache/*' '**/.venv/*'
 }
 
+alias screenshot-cp="maim --select | xclip -selection clipboard -t image/png"
+
 # uv is here, among maybe other things
 PATH="$PATH:$HOME/.local/bin"
 
@@ -69,4 +76,5 @@ alias source-franka="source-ros; source ~/ws/franka/install/setup.zsh"
 alias source-penpal="source-franka; source ~/Documents/elwin_ME495/penpal/install/setup.zsh"
 
 source-ros
+
 
