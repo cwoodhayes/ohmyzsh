@@ -1,8 +1,17 @@
+# ros stuff
+## for autocomplete
+autoload -U +X compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
+
 # easy aliases for stuff i do often
 alias backup="sudo rdiff-backup --api-version 201 --new backup /home/conor /media/conor/writable/conorbot-backups"
 alias reload="source ~/.zshrc"
 alias vimrc="vim ~/.oh-my-zsh/custom/conorbot.zsh"
 alias vimi3="vim ~/.config/i3/config"
+
+# cd aliases
+alias cdw="cd /home/conor/Documents/W2026"
+alias cdslam="cd /home/conor/Documents/W2026/elwin_me495/slam"
 
 # miscellaneous tools
 ## install ruby gems to ~/gems
@@ -50,15 +59,6 @@ alias screenshot-cp="maim --select | xclip -selection clipboard -t image/png"
 # uv is here, among maybe other things
 PATH="$PATH:$HOME/.local/bin"
 
-# ros stuff
-## for autocomplete
-autoload -U +X compinit && compinit
-autoload -U +X bashcompinit && bashcompinit
-
-# argcomplete for ros2 & colcon
-eval "$(register-python-argcomplete ros2)"
-eval "$(register-python-argcomplete colcon)"
-
 ## helpful random ros tools
 source "/usr/share/colcon_cd/function/colcon_cd.sh"
 
@@ -74,7 +74,11 @@ alias source-hw3="source-ros; source ~/Documents/elwin_ME495/hw3/install/setup.z
 alias source-hw3p2="source-ros; source ~/Documents/elwin_ME495/hw3p2/install/setup.zsh"
 alias source-franka="source-ros; source ~/ws/franka/install/setup.zsh"
 alias source-penpal="source-franka; source ~/Documents/elwin_ME495/penpal/install/setup.zsh"
+alias source-slam="source ~/Documents/W2026/elwin_me495/slam/install/setup.zsh"
 
 source-ros
 
 
+# argcomplete for ros2 & colcon
+eval "$(register-python-argcomplete ros2)"
+eval "$(register-python-argcomplete colcon)"
