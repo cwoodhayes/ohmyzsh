@@ -1,5 +1,12 @@
 # Host-specific configuration for conormac3 (MacBook)
 
+# pyenv initialization
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+
+# GPG needs the current tty for pinentry
+export GPG_TTY=$(tty)
+
 alias update-cli="pip install /Users/conorhayes/project/clitools"
 alias clis="/Users/conorhayes/project/clitools/venv/bin/python /Users/conorhayes/project/clitools/clitools/main.py"
 alias project="pushd /Users/conorhayes/project"
