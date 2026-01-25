@@ -5,7 +5,7 @@ autoload -U +X bashcompinit && bashcompinit
 
 # easy aliases for stuff i do often
 alias backup="sudo rdiff-backup --api-version 201 --new backup /home/conor /media/conor/writable/conorbot-backups"
-alias vimrc="vim ~/.oh-my-zsh/custom/conorbot.zsh"
+alias vimrc="vim ~/.oh-my-zsh/custom/hosts/conorbot.zsh"
 alias vimi3="vim ~/.config/i3/config"
 
 # cd aliases

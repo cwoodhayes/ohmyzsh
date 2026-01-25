@@ -4,6 +4,8 @@ unsetopt autocd
 
 # General aliases
 alias song-dl="youtube-dl -x --audio-format m4a "
+alias vimrc-linux="vim ~/.oh-my-zsh/custom/linux.zsh" 
+alias vimrc-common="vim ~/.oh-my-zsh/custom/common.zsh" 
 
 # Convert Google Drive file links or IDs to raw image URL (or Markdown).
 # Usage:
@@ -14,21 +16,24 @@ alias song-dl="youtube-dl -x --audio-format m4a "
 #     -d : use download URL
 #     -c : copy Markdown to clipboard
 gdimg() {
-	local input="$1" mode="view" copy=0 id url
-	shift
+	local input mode="view" copy=0 id url
+	local -a args=()
+
+	# Extract flags and positional arguments
 	while [[ $# -gt 0 ]]; do
 		case "$1" in
 			-d|--download) mode="download" ;;
 			-c|--copy) copy=1 ;;
-			*) break ;;
+			*) args+=("$1") ;;
 		esac
 		shift
 	done
 
-	if [[ -z "$input" ]]; then
+	if [[ ${#args[@]} -eq 0 ]]; then
 		echo "Usage: gdimg <url-or-id> [-d] [-c]" >&2
 		return 1
 	fi
+	input="${args[1]}"
 
 	# Reject folder links (cannot resolve contents without Drive API)
 	if echo "$input" | grep -Eq '/drive(/u/[0-9]+)?/folders/'; then
@@ -39,8 +44,8 @@ gdimg() {
 	# Extract file ID from common URL shapes, otherwise treat input as ID
 	id=$(echo "$input" |
 		sed -nE \
-			-e 's#.*file/d/([a-zA-Z0-9_-]+).*#\1#p' \
-			-e 's#.*[?&]id=([a-zA-Z0-9_-]+).*#\1#p')
+			-e 's#.*file/d/([^/]+).*#\1#p' \
+			-e 's#.*[?&]id=([^&?]+).*#\1#p')
 
 	if [[ -z "$id" ]]; then
 		# If the input looks like a bare ID, accept it; else fail
@@ -69,22 +74,25 @@ gdimg() {
 }
 
 gdmd() {
-	local input="$1" alt="$2"; shift 2 || true
-	local mode="view" copy=0 url extra=""
+	local input alt mode="view" copy=0 url extra=""
+	local -a args=()
 
+	# Extract flags and positional arguments
 	while [[ $# -gt 0 ]]; do
 		case "$1" in
 			-d|--download) mode="download" ;;
 			-c|--copy) copy=1 ;;
-			*) break ;;
+			*) args+=("$1") ;;
 		esac
 		shift
 	done
 
-	if [[ -z "$input" || -z "$alt" ]]; then
+	if [[ ${#args[@]} -lt 2 ]]; then
 		echo "Usage: gdmd <url-or-id> \"Alt text\" [-d] [-c]" >&2
 		return 1
 	fi
+	input="${args[1]}"
+	alt="${args[2]}"
 
 	# Reuse gdimg to compute the URL (without copying)
 	if [[ "$mode" == "download" ]]; then
