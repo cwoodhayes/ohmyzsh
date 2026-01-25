@@ -1,29 +1,12 @@
-alias reload='source ~/.zshrc'
-unsetopt autocd
+## Custom entrypoint: load common, platform, then host-specific config.
 
-# pyenv stuff
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
-
-# convenience
-# from https://apple.stackexchange.com/questions/15318/how-to-use-terminal-to-copy-a-file-to-the-clipboard
-file-to-clipboard() {
-    osascript \
-        -e 'on run args' \
-        -e 'set the clipboard to POSIX file (first item of args)' \
-        -e end \
-        "$@"
+# Helper to source files only when they exist.
+_omz_custom_source_if_exists() {
+    [[ -f "$1" ]] && source "$1"
 }
 
-alias song-dl="youtube-dl -x --audio-format m4a "
-alias vinterp="/Users/conorhayes/usr/local/cain-ncnn-vulkan-20220728-macos/cain-ncnn-vulkan"
-alias update-cli="pip install /Users/conorhayes/project/clitools"
-alias clis="/Users/conorhayes/project/clitools/venv/bin/python /Users/conorhayes/project/clitools/clitools/main.py"
+# Custom files live in the root of $ZSH_CUSTOM and are already auto-sourced by OMZ.
+# Host-specific files are namespaced under $ZSH_CUSTOM/hosts and loaded manually here.
+_omz_custom_source_if_exists "$ZSH_CUSTOM/hosts/${SHORT_HOST:-$(hostname -s)}.zsh"
 
-alias project="pushd /Users/conorhayes/project"
-
-# gpg setup
-export GPG_TTY=$(tty)
-
-# manual path thing cuz docker desktop install didnt do the thing
-export PATH=$PATH:/Applications/Docker.app/Contents/Resources/bin
+unset -f _omz_custom_source_if_exists
