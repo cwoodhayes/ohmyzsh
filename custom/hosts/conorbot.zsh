@@ -31,6 +31,35 @@ nighty() {
 	fi
 }
 
+# random helpful functions
+update-discord() {
+	# Find discord packages in Downloads
+	packages=(~/Downloads/discord-*.deb(N))
+
+	# Check how many packages found
+	if (( ${#packages[@]} == 0 )); then
+	    echo "Error: No discord-*.deb packages found in ~/Downloads"
+	    exit 1
+	elif (( ${#packages[@]} > 1 )); then
+	    echo "Error: Multiple discord packages found:"
+	    printf '  %s\n' "${packages[@]}"
+	    exit 1
+	else
+	    package="${packages[1]}"
+	    echo "Found package: $package"
+	    echo "Installing..."
+	    
+	    if sudo apt install "$package"; then
+		echo "Installation successful. Deleting package..."
+		rm "$package"
+		echo "Done!"
+	    else
+		echo "Installation failed. Package not deleted."
+		exit 1
+	    fi
+	fi
+}
+
 pyinit() {
 	# first arg is directory, or "." by default. all other args ignored
 	dir="${1:-.}"
