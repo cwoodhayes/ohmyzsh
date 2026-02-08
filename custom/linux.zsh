@@ -59,3 +59,10 @@ ros-reclone() {
     cd - > /dev/null
 }
 
+# puts together compile_commands output for vscode
+ros2-compile-commands() {
+	colcon build --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+	find build -name compile_commands.json -exec cat {} \; | jq -s 'add' > build/compile_commands.json
+	echo "Wrote compile_commands to build/compile_commands.json"
+}
+

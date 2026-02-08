@@ -79,7 +79,7 @@ ziprepo() {
 	dir="${1:-.}"
 	out="$dir.zip"
 	echo "Writing repo at $dir to $out..."
-	zip -r "$out" "$dir" -x '**/__pycache__/*' '**/.pytest_cache/*' '**/.venv/*'
+	zip -r "$out" "$dir" -x '**/__pycache__/*' '**/.pytest_cache/*' '**/.venv/*' '**/.vscode/*' '**/.git/**'
 }
 
 alias screenshot-cp="maim --select | xclip -selection clipboard -t image/png"
@@ -103,6 +103,7 @@ alias source-hw3p2="source-ros; source ~/Documents/elwin_ME495/hw3p2/install/set
 alias source-franka="source-ros; source ~/ws/franka/install/setup.zsh"
 alias source-penpal="source-franka; source ~/Documents/elwin_ME495/penpal/install/setup.zsh"
 alias source-slam="source ~/Documents/W2026/elwin_me495/slam/install/setup.zsh"
+alias cdslam="cd ~/Documents/W2026/elwin_me495/slam/"
 
 source-ros
 
