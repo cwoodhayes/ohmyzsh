@@ -107,6 +107,19 @@ alias cdslam="cd ~/Documents/W2026/elwin_me495/slam/"
 
 source-ros
 
+# ROS DOMAIN ID FOR MY PROJECTS
+export ROS_DOMAIN_ID=63
+
+# turtlebot access
+ros2-xcompile-turtlebot() {
+	# first arg is "raphael" or others
+	if (( $# != 1 )); then
+		echo "Error: rsync-turtlebot requires exactly 1 argument"
+		return 1
+	fi
+	./aarch64 colcon_aarch64
+	rsync -av --delete aarch64_install/ $1:/home/msr/install
+}
 
 # argcomplete for ros2 & colcon
 eval "$(register-python-argcomplete ros2)"
