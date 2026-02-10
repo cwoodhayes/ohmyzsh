@@ -7,11 +7,12 @@ ros-reclone() {
     # Check if URL argument is provided
     if [ -z "$1" ]; then
         echo "Error: Please provide a git URL"
-        echo "Usage: ros-reclone <git-url>"
+        echo "Usage: ros-reclone <git-url> [branch]"
         return 1
     fi
     
     local git_url="$1"
+    local git_branch="$2"
     
     # Create temporary directory
     local temp_dir=$(mktemp -d)
@@ -26,7 +27,13 @@ ros-reclone() {
 
     # Clone the repository
     echo "Cloning repository..."
-    if ! git clone "$git_url" "$temp_dir/src/$repo_name"; then
+    if [ -n "$git_branch" ]; then
+        if ! git clone -b "$git_branch" "$git_url" "$temp_dir/src/$repo_name"; then
+            echo "Error: Failed to clone repository"
+            rm -rf "$temp_dir"
+            return 1
+        fi
+    elif ! git clone "$git_url" "$temp_dir/src/$repo_name"; then
         echo "Error: Failed to clone repository"
         rm -rf "$temp_dir"
         return 1
