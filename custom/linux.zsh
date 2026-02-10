@@ -20,12 +20,24 @@ ros-reclone() {
     # Create src subdirectory
     mkdir -p "$temp_dir/src"
     
+    # Determine repo directory name
+    local repo_name="${git_url##*/}"
+    repo_name="${repo_name%.git}"
+
     # Clone the repository
     echo "Cloning repository..."
-    if ! git clone "$git_url" "$temp_dir/src"; then
+    if ! git clone "$git_url" "$temp_dir/src/$repo_name"; then
         echo "Error: Failed to clone repository"
         rm -rf "$temp_dir"
         return 1
+    fi
+
+    # if one exists, run the install_dependencies.sh script in the repo root to set up the environment
+    if [ -f "$temp_dir/src/$repo_name/install_dependencies.sh" ]; then
+        echo "Running install_dependencies.sh from cloned repository..."
+        "$temp_dir/src/$repo_name/install_dependencies.sh"
+    else 
+        echo "No install_dependencies.sh found in cloned repository, skipping environment setup"
     fi
     
     # Change to temp directory
