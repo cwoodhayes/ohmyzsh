@@ -85,3 +85,52 @@ ros2-compile-commands() {
 	echo "Wrote compile_commands to build/compile_commands.json"
 }
 
+#################
+# other random linux helpers
+
+update-deb-from-downloads() {
+	# args: app name, regex
+	if (( $# != 2 )); then
+		echo "Usage: update-deb-from-downloads <app-name> <regex>"
+		return 1
+	fi
+
+	local app_name="$1"
+	local regex="$2"
+	local matches=()
+	local file
+
+	while IFS= read -r file; do
+		matches+=("$HOME/Downloads/$file")
+	done < <(find "$HOME/Downloads" -maxdepth 1 -type f -printf '%f\n' | grep -E "$regex")
+
+	if (( ${#matches[@]} == 0 )); then
+		echo "Error: No $app_name packages found in ~/Downloads"
+		return 1
+	elif (( ${#matches[@]} > 1 )); then
+		echo "Error: Multiple $app_name packages found:"
+		printf '  %s\n' "${matches[@]}"
+		return 1
+	else
+		local package="${matches[1]}"
+		echo "Found package: $package"
+		echo "Installing..."
+
+		if sudo apt install "$package"; then
+			echo "Installation successful. Deleting package..."
+			rm "$package"
+			echo "Done!"
+		else
+			echo "Installation failed. Package not deleted."
+			return 1
+		fi
+	fi
+}
+
+update-discord() {
+	update-deb-from-downloads "discord" '^discord-.*\.deb$'
+}
+
+update-vscode() {
+	update-deb-from-downloads "vscode" '^code_.*\.deb$'
+}
