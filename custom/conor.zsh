@@ -2,6 +2,7 @@
 
 # Helper to source files only when they exist.
 _omz_custom_source_if_exists() {
+    # echo "Attempting to source $1..."
     [[ -f "$1" ]] && source "$1"
 }
 

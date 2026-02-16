@@ -7,6 +7,7 @@ eval "$(pyenv init -)"
 # GPG needs the current tty for pinentry
 export GPG_TTY=$(tty)
 
+alias vimrc="vim ~/.oh-my-zsh/custom/hosts/conormac3.zsh"
 alias update-cli="pip install /Users/conorhayes/project/clitools"
 alias clis="/Users/conorhayes/project/clitools/venv/bin/python /Users/conorhayes/project/clitools/clitools/main.py"
 alias project="pushd /Users/conorhayes/project"
@@ -29,6 +30,9 @@ alias raas-cd="cd /Users/conorhayes/project/CHSC_clients/yutao_projects/hybrid_l
 alias vinterp="/Users/conorhayes"
 export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin"
 export PATH="/Users/conorhayes/Library/Python/2.7/bin:$PATH"
+
+# ruby
+export PATH="/usr/local/opt/ruby/bin:$PATH"
 
 # OLD WESPER STUFF
 
