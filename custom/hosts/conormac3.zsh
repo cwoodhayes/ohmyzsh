@@ -1,9 +1,5 @@
 # Host-specific configuration for conormac3 (MacBook)
 
-# pyenv initialization
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
-
 # GPG needs the current tty for pinentry
 export GPG_TTY=$(tty)
 
